@@ -67,6 +67,7 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
 };
 
 
+var encl = 1;
 
 HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow) {
     this.context.strokeStyle = "#000";
@@ -92,40 +93,61 @@ HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow) {
         rotateHex == 1 ? angle = angles[this.coord] 
                        : angle = rotateHex;
         
-        console.log(angle);
+        console.log("angle", angle);
         
-        this.context.save(); 
-        this.context.translate(x0+this.width/2, y0+this.height/2);
-        this.context.rotate(angle*Math.PI/180); 
-        this.context.translate(-(x0+this.width/2), -(y0+this.height/2));
+        if (rotateHex == 0 || rotateHex == 1) {
+            this.context.save(); 
+            this.context.translate(x0+this.width/2, y0+this.height/2);
+            this.context.rotate(angle*Math.PI/180); 
+            this.context.translate(-(x0+this.width/2), -(y0+this.height/2));
+        }
         this.context.drawImage(texture, x0, y0, (this.width), (this.height));
-
+        
         
         var target = { col: colrow.col + 1, 
                        row: colrow.col % 2 ? colrow.row : colrow.row - 1 };
-        
-        if (target.col < globalCols && target.row < globalRows 
-                         && target.col >= 0 && target.row >= 0)
-            this.drawHexAtColRow(target.col, target.row, 0, lineImg);
 
         
+        if (texture == lineImg || angle == 360) encl++;
+            else encl = 1;
+
+        var X = 0;
+        var Y = 0;
+ 
+
+        /// TODO : for 90/180/240 !!!!!!!!!!!
+
+        if (angle == 60) {
+            X = this.width - this.side;
+            Y = 1 + this.height * encl;
+        }
+
+        var XX = (target.col * this.side) + this.canvasOriginX;
+        var YY = target.col % 2 == 0 ? (target.row * this.height) + this.canvasOriginY : (target.row * this.height) + this.canvasOriginY + (this.height / 2);
+        
+        // Column and Row of the rotated tile!!!
+        var rotated_ColRow = this.getSelectedTile(XX + X , YY + Y);
+        ////////
+
+        console.log(rotated_ColRow);
+        if (rotated_ColRow.column < globalCols && rotated_ColRow.row < globalRows 
+                         && rotated_ColRow.column >= 0 && rotated_ColRow.row >= 0) {
+            this.drawHexAtColRow(target.col, target.row, angle, lineImg);
+ 
         this.context.restore();
-        console.log(this.getSelectedTile(x0-this.canvasOriginX,y0 - this.canvasOriginY));
-        // draw (or redraw rotated) laser into the clicked tilу        
-        //this.context.drawImage(lineImg, x0+this.width*(3/4), y0-this.height/2, (this.width), (this.height));
-
 
         /* restore default background */
-        /*
-        if (angles[this.coord] > 0) { 
+    
+        if (angle > 1) { 
             this.context.save(); 
             this.context.translate(x0+this.width/2, y0+this.height/2);
-            this.context.rotate((angles[this.coord]-60)*Math.PI/180); 
+            this.context.rotate((angle-60)*Math.PI/180); 
             this.context.translate(-(x0+this.width/2), -(y0+this.height/2));
             this.context.drawImage(hexImg, x0+this.width*(3/4), y0-this.height/2, (this.width), (this.height));
             this.context.restore();
         }
-        */
+    }
+    
     }
     else {
         this.context.drawImage(hexImg, x0, y0, (this.width), (this.height));
@@ -133,12 +155,13 @@ HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow) {
  
     this.context.closePath();
     this.context.stroke();
-
+    /*
     if (colrow) {
         this.context.font = "8px";
         this.context.fillStyle = "#000";
         this.context.fillText(colrow.col + " : " + colrow.row, x0 + (this.width / 2) - (this.width/4), y0 + (this.height - 5));
-    }
+    } 
+    */
 };
 
 //Recusivly step up to the body to calculate canvas offset.
@@ -223,7 +246,7 @@ HexagonGrid.prototype.getSelectedTile = function(mouseX, mouseY) {
         }
     }
 
-    return  { column: column, row: row};
+    return  { column: column, row: row };
 };
 
 
@@ -231,7 +254,6 @@ HexagonGrid.prototype.sign = function(p1, p2, p3) {
     return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
 };
 
-//TODO: Replace with optimized barycentric coordinate method
 HexagonGrid.prototype.isPointInTriangle = function isPointInTriangle(pt, v1, v2, v3) {
     var b1, b2, b3;
 
@@ -254,17 +276,8 @@ HexagonGrid.prototype.clickEvent = function (e) {
         var drawy = tile.column % 2 == 0 ? (tile.row * this.height) + this.canvasOriginY : (tile.row * this.height) + this.canvasOriginY + (this.height / 2);
         var drawx = (tile.column * this.side) + this.canvasOriginX;
 
-        //this.drawHex(drawx, drawy, 1, laserImg, 0);
+        
         this.drawHexAtColRow(tile.column, tile.row, 1, laserImg, 0);       
 
     } 
 };
-
-/*
-HexagonGrid.prototype.setTileImage = function(element, imgFilename) {
-        if (typeof element !== 'object') {
-            throw new Error('element is not an object');
-        }
-        element.style.backgroundImage = 'url(' + imgFilename + ')';
-};
-*/
