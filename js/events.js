@@ -16,16 +16,13 @@ function click(evt) {
             showMenu();
             break;
         case 'play':
-            showPlay();
+            showGrid();
             break;
         case 'rating':
             showRating();
             break;
         case 'about':
             showAbout();
-	    	break;
-		case 'arcade':
-	    	showGrid();
 	    	break;
     }    
 }
@@ -45,11 +42,6 @@ function showRating() {
     $('#rating').show();
 }
 
-
-function showPlay() {
-    $('.screen').hide().removeClass('show');
-    $('#play').show();
-}
 
 function showGrid() {
 
