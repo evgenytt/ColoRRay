@@ -4,6 +4,8 @@ $(document).ready(function() {
 
 function init() {
     resize();
+    resize_canvas();
+    
     addEventListeners();
     showMenu();
 
@@ -12,8 +14,11 @@ function init() {
 
     //draw grid
     setTimeout(function() {
-        var hexagonGrid = new HexagonGrid("HexCanvas", 40);
-        hexagonGrid.drawHexGrid(8, 13, 0, 0, false);
+        var win_h = $(document).height();
+        var rows = 9, cols = 13;
+        var hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
+
+        hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.038, false);
     }, 500);
 }
 

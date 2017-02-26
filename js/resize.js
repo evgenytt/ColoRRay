@@ -17,3 +17,11 @@ function resize() {
     $('.table p').css('font-size', Math.round(containerWidth * .07) + 'px');
     $('.table p').css('line-height', Math.round(containerWidth * .05) + 'px');
 }
+
+function resize_canvas() {
+    canvas = document.getElementById("HexCanvas");
+    if (canvas.width  < window.innerWidth)
+        canvas.width  = window.innerWidth;  
+    if (canvas.height < window.innerHeight)
+        canvas.height = window.innerHeight;
+}

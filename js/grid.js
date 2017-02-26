@@ -31,12 +31,11 @@ function GetDirection(angle, row, col) {
 }
 
 function HexagonGrid(canvasId, radius) {
-    this.radius = radius;
-
-    this.height = Math.sqrt(3) * radius;
-    this.width = 2 * radius;
-    this.side = (3 / 2) * radius;
-    this.canvas = document.getElementById(canvasId);
+    this.radius  = radius;
+    this.height  = Math.sqrt(3) * radius;
+    this.width   = 2 * radius;
+    this.side    = (3 / 2) * radius;
+    this.canvas  = document.getElementById(canvasId);
     this.context = this.canvas.getContext('2d');
 
     this.canvasOriginX = 0;
@@ -48,7 +47,8 @@ function HexagonGrid(canvasId, radius) {
 
 
 HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDebug) {
-    globalRows = rows; globalCols = cols;
+    globalRows = rows; 
+    globalCols = cols;
     this.canvasOriginX = originX;
     this.canvasOriginY = originY;
     
