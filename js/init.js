@@ -19,7 +19,7 @@ function init() {
         var hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
 
         hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.038, false);
-    }, 500);
+    }, 100);
 }
 
 $(window).on('resize', function() {
