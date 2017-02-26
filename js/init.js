@@ -22,7 +22,7 @@ $(window).on('resize', function() {
 });
 
 
-
+// init Images
 var hexImg = new Image();
 hexImg.src = "./img/hex.png";
 
