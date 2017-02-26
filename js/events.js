@@ -1,11 +1,11 @@
 function addEventListeners() {
     $(document).on('mouseup', click);
-    $(document).on('contextmenu', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        return false;
-    })
+//     $(document).on('contextmenu', function(e) {
+//         e.preventDefault();
+//         e.stopPropagation();
+//         e.stopImmediatePropagation();
+//         return false;
+//     })
 }
 
 function click(evt) {
@@ -17,7 +17,13 @@ function click(evt) {
             break;
         case 'play':
             showPlay();
-            break;
+			break;
+		case 'login':
+			showLogIn();
+			break;
+		case 'logout':
+			showLogOut();
+			break;
         case 'rating':
             showRating();
             break;
@@ -49,6 +55,16 @@ function showRating() {
 function showPlay() {
     $('.screen').hide().removeClass('show');
     $('#play').show();
+}
+
+function showLogIn() {
+	$('.screen').hide().removeClass('show');
+	$('#login').show();
+}
+
+function showLogOut() {
+	$('.screen').hide().removeClass('show');
+	$('#logout').show();
 }
 
 function showGrid() {

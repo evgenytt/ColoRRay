@@ -52,6 +52,11 @@ p {
   margin: 0;
 }
 
+a:link, a:visited {
+  text-decoration:none;
+  color:#fff;
+}
+
 .table {
   font-size: 36px;
   line-height: 80px; 
