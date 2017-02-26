@@ -1,4 +1,3 @@
-
 var globalRows;
 var globalCols;
 var globalLines = [];
