@@ -1,5 +1,9 @@
+
 $(document).ready(function() {
     init();
+    $(window).on("load", function() {
+        drawGrid();
+    });
 });
 
 function init() {
@@ -11,15 +15,14 @@ function init() {
 
     saveRating();
     displayRatings();
+}
 
-    //draw grid
-    setTimeout(function() {
-        var win_h = $(document).height();
-        var rows = 9, cols = 13;
-        var hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
+function drawGrid() {
+    var win_h = $(document).height();
+    var rows = 9, cols = 13;
+    var hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
 
-        hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.038, false);
-    }, 100);
+    hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.038, false);
 }
 
 $(window).on('resize', function() {

@@ -51,7 +51,7 @@ function showGrid() {
     setTimeout(function() {
         $('.screen').hide().removeClass('show');
         $('#grid').show();
-    }, 1000);
+    }, 500);
 
 }
 
