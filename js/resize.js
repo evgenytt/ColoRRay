@@ -10,12 +10,13 @@ function resize() {
 
     $('#container').css('width', containerWidth + 'px');
     $('h3').css('font-size', Math.round(containerWidth * .09) + 'px');
-    $('p').css('font-size', Math.round(containerWidth * .04) + 'px');
+    $('p').css('font-size', Math.round(containerWidth * .045) + 'px');
     $('p').css('padding', Math.round(containerWidth * .05) + 'px 0');
     $('p').css('line-height', Math.round(containerWidth * .1) + 'px');
     $('.menu p').css('font-size', Math.round(containerWidth * .1) + 'px');
-    $('.table p').css('font-size', Math.round(containerWidth * .07) + 'px');
-    $('.table p').css('line-height', Math.round(containerWidth * .05) + 'px');
+    $('#level p').css('line-height', Math.round(containerWidth * .01) + 'px');
+    $('.table p').css('font-size', Math.round(containerWidth * .05) + 'px');
+    $('.table p').css('line-height', Math.round(containerWidth * .01) + 'px');
 }
 
 function resize_canvas() {

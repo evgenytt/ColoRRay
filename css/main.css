@@ -25,20 +25,20 @@ body {
   transform: translate(-50%, -50%);
 }
 
-#play {
-  transform: translate(0, -30%);
+#level {
+  transform: translate(0, -6%);
 }
 
 #rating {
-  transform: translate(0, 10%);
-}
-
-#about {
-  transform: translate(0, -5%);
+  transform: translate(0, 20%);
 }
 
 #HexCanvas {
   display: block;
+}
+
+#level p:hover {
+  color: black;
 }
 
 .screen {
@@ -60,12 +60,6 @@ p {
   padding: 30px 0px; 
   line-height: 48px; 
   margin: 0;
-}
-
-.table {
-  font-size: 36px;
-  line-height: 80px; 
-  color: white;
 }
 
 .left {
