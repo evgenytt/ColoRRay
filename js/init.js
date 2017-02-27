@@ -17,7 +17,7 @@ function init() {
     saveRating();
     displayRatings();
 
-}
+};
 
 function drawGrid(lvl) {
     var win_h = $(document).height();
@@ -26,7 +26,7 @@ function drawGrid(lvl) {
 
     initLevelVariables();
     hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.035, lvl, false);
-}
+};
 
 function initLevelVariables() { // LEVELS FOR THE GAME !!!
 
@@ -66,7 +66,7 @@ function initLevelVariables() { // LEVELS FOR THE GAME !!!
     ];
 
     Base = { laser: 60, mirror: 180, target: 240 };
-}
+};
 
 
 // init Images

@@ -139,18 +139,16 @@ function GetDirection(angle, row, col) {
         case 240: return { dx: -1, dy: col&1 ? 1 : 0 };
         case 300: return { dx: -1, dy: col&1 ? 0 : -1 };
     }
-}
+};
 
 HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow, dir, color) {
 
     if (texture) {  
-
-        angle = dir - 60;
         if (texture == lineImg[color]) globalLines.push({ x: x0, y: y0 });
         
         this.context.save(); 
         this.context.translate(x0+this.width/2, y0+this.height/2);
-        this.context.rotate(angle*Math.PI/180); 
+        this.context.rotate((dir-60)*Math.PI/180); 
         this.context.translate(-(x0+this.width/2), -(y0+this.height/2));
         this.context.drawImage(texture, x0, y0, (this.width), (this.height));
         this.context.restore();
@@ -165,7 +163,6 @@ HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow, dir
     else {
         this.context.drawImage(hexImg, x0, y0, (this.width), (this.height));
     }
-
 };
 
 //Recusivly step up to the body to calculate canvas offset.
@@ -180,7 +177,7 @@ HexagonGrid.prototype.getRelativeCanvasOffset = function() {
         
         return { x: x, y: y };
     }
-}
+};
 
 //Uses a grid overlay algorithm to determine hexagon location
 //Left edge of grid has a test to acuratly determin correct hex
@@ -289,9 +286,6 @@ HexagonGrid.prototype.clickEvent = function (e) {
 
     var tile = this.getSelectedTile(localX, localY);
     if (tile.column >= 0 && tile.row >= 0 && tile.column < globalCols && tile.row < globalRows) {
-        var drawy = tile.column % 2 == 0 ? (tile.row * this.height) + this.canvasOriginY : (tile.row * this.height) + this.canvasOriginY + (this.height / 2);
-        var drawx = (tile.column * this.side) + this.canvasOriginX;
-
         var coord = tile.column + "." + tile.row;
         if (coord in O[lvl]) {
             if (O[lvl][coord].type == "spec") {

@@ -38,7 +38,7 @@ body {
   display: block;
 }
 
-#level p:hover {
+#level p:hover, .gridmenu p:hover {
   color: black;
 }
 
@@ -81,7 +81,6 @@ p {
 
 .gridmenu {
    position: absolute;
-   color: black;
    left: 1%;
    bottom: 0;
 }
