@@ -20,7 +20,7 @@ function drawGrid(lvl) {
     var rows = 9, cols = 13;
     var hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
 
-    hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.038, lvl, false);
+    hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.035, lvl, false);
 }
 
 $(window).on('resize', function() {

@@ -78,6 +78,13 @@ p {
   width: 100%;
 }
 
+.gridmenu {
+   position: absolute;
+   color: black;
+   left: 1%;
+   bottom: 0;
+}
+
 #loader {
 
   margin: auto;
