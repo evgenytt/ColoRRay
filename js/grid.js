@@ -13,6 +13,14 @@ lineImg["blue"] = new Image();
 lineImg["blue"].src = "./img/blue.png";
 lineImg["green"] = new Image();
 lineImg["green"].src = "./img/green.png";
+lineImg["littlewhite"] = new Image();
+lineImg["littlewhite"].src = "./img/littlewhite.png";
+lineImg["littlered"] = new Image();
+lineImg["littlered"].src = "./img/littlered.png";
+lineImg["littleblue"] = new Image();
+lineImg["littleblue"].src = "./img/littleblue.png";
+lineImg["littlegreen"] = new Image();
+lineImg["littlegreen"].src = "./img/littlegreen.png";
 
 var filterImg = new Array();
 filterImg["red"] = new Image();
@@ -29,11 +37,23 @@ var wallImg = new Image();
 wallImg.src = "./img/wall.png";
 
 var targetImg = new Array();
-targetImg[""] = new Image();
-targetImg[""].src = "./img/target.png";
+targetImg["whitebase"] = new Image();
+targetImg["whitebase"].src = "./img/target.png";
+targetImg["redbase"] = new Image();
+targetImg["redbase"].src = "./img/redtarget.png";
+targetImg["bluebase"] = new Image();
+targetImg["bluebase"].src = "./img/bluetarget.png";
+targetImg["greenbase"] = new Image();
+targetImg["greenbase"].src = "./img/greentarget.png";
 
 targetImg["white"] = new Image();
 targetImg["white"].src = "./img/whitetarget.png";
+targetImg["red"] = new Image();
+targetImg["red"].src = "./img/redtargetred.png";
+targetImg["blue"] = new Image();
+targetImg["blue"].src = "./img/bluetargetblue.png";
+targetImg["green"] = new Image();
+targetImg["green"].src = "./img/greentargetgreen.png";
 
 var mirrorImg = new Array();
 mirrorImg[""] = new Image();
@@ -76,8 +96,8 @@ Objects[LAS.col + "." + LAS.row] = {type: "laser", dir: 60, texture: laserImg, c
 Objects["6.4"] = {type: "mirror", dir: 180, texture: mirrorImg[""], col:6, row:4, basetexture: mirrorImg[""]};
 Objects["8.5"] = {type: "spec", dir: 0, texture: specImg, col:8, row:5, basetexture: specImg};
 Objects["11.6"] = {type: "wall", dir: 0, texture: wallImg, col:11, row:6, basetexture: wallImg};
-Objects["6.0"] = {type: "target", color: "white", dir: 240, texture: targetImg[""], col:6, row:0, basetexture: targetImg[""]};
-Objects["6.2"] = {type: "filter", color: "blue", dir: 0, texture: filterImg["blue"], col:6, row:2, basetexture: filterImg["blue"]};
+Objects["6.0"] = {type: "target", color: "green", dir: 240, texture: targetImg["greenbase"], col:6, row:0, basetexture: targetImg["greenbase"]};
+//Objects["6.2"] = {type: "filter", color: "blue", dir: 0, texture: filterImg["blue"], col:6, row:2, basetexture: filterImg["blue"]};
 Objects["4.5"] = {type: "filter", color: "green", dir: 0, texture: filterImg["green"], col:4, row:5, basetexture: filterImg["green"]};
 
 function GetDirection(angle, row, col) {
@@ -143,6 +163,8 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDe
 
 HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture, dir, color) {
     dir %= 360;
+    var drawx = (column * this.side) + this.canvasOriginX;
+    var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
     var coord = column + "." + row;
     if (texture == lineImg[color] && (coord in Objects)) {   
         if (Objects[coord].type == "mirror")
@@ -181,11 +203,20 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
             return;
 
         if (Objects[coord].type == "target") {
-            if (color == Objects[coord].color || color == "white" || Objects[coord].color=="white") {
-                Objects[coord].texture = targetImg["white"];
+            if (color == Objects[coord].color) {
+                Objects[coord].texture = targetImg[color];
                 while( (Objects[coord].dir + 180) % 360 != dir) 
                     this.RotateHex(column, row, coord, 1);
                 this.RotateHex(column, row, coord, 0);
+            }
+            else
+            {
+                this.context.save(); 
+                this.context.translate(drawx+this.width/2, drawy+this.height/2);
+                this.context.rotate((dir-60)*Math.PI/180); 
+                this.context.translate(-(drawx+this.width/2), -(drawy+this.height/2));
+                this.context.drawImage(lineImg["little"+color],drawx, drawy, (this.width), (this.height));
+                this.context.restore();
             }
             return;
         }
@@ -200,8 +231,6 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
                 return;
         }
     }
-    var drawx = (column * this.side) + this.canvasOriginX;
-    var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
     this.drawHex(drawx, drawy, rotateHex, texture, {col: column, row: row}, dir, color);
 };
 
