@@ -173,9 +173,6 @@ HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow,dir,
         
         if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
             this.drawHexAtColRow(target.col, target.row, 0, lineImg[color], dir,color);
-
-        
-        console.log(this.getSelectedTile(x0 - this.canvasOriginX,y0 - this.canvasOriginY));
     }
     else {
         this.context.drawImage(hexImg, x0, y0, (this.width), (this.height));
@@ -202,7 +199,6 @@ HexagonGrid.prototype.getRelativeCanvasOffset = function() {
 HexagonGrid.prototype.getSelectedTile = function(mouseX, mouseY) {
 
     var offSet = this.getRelativeCanvasOffset();
-
     mouseX -= offSet.x;
     mouseY -= offSet.y;
 
