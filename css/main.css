@@ -8,6 +8,7 @@ body {
   background-color: #4a9690;
   font-family: 'Indie Flower', cursive;
   color: #fff;
+  -webkit-user-select: none;
 }
 
 #container {
