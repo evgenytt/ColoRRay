@@ -3,6 +3,7 @@ html, body {
   height: 100%;
   margin: 0px;
 }
+
 body {
   background-color: #4a9690;
   font-family: 'Indie Flower', cursive;
@@ -78,6 +79,10 @@ p {
   width: 50%;
 }
 
+.mid {
+  text-align: center;
+  width: 100%;
+}
 
 #loader {
 

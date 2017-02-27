@@ -1,9 +1,6 @@
 
 $(document).ready(function() {
     init();
-    $(window).on("load", function() {
-        drawGrid();
-    });
 });
 
 function init() {
@@ -15,14 +12,15 @@ function init() {
 
     saveRating();
     displayRatings();
+
 }
 
-function drawGrid() {
+function drawGrid(lvl) {
     var win_h = $(document).height();
     var rows = 9, cols = 13;
     var hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
 
-    hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.038, false);
+    hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.038, lvl, false);
 }
 
 $(window).on('resize', function() {

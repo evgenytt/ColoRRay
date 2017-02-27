@@ -1,22 +1,37 @@
 var globalRows;
 var globalCols;
 var globalLines = [];
-var Objects = [];
-var Base = [];
+var lvl;
 
-var LAS = { col: 3, row: 5 };
+var L = [ {}, { // LASERS
+    col: 3, row: 5 
+}, 
+{
+    col: 1, row: 1
+}]; 
+var O = [ {}, { // OBJECTS FOR EACH LEVEL
+    3.5:  { type: "laser",                  col: 3,  row: 5, dir: 60,  texture: laserImg,           basetexture: laserImg           },
+    6.4:  { type: "mirror",                 col: 6,  row: 4, dir: 180, texture: mirrorImg[""],      basetexture: mirrorImg[""]      },
+    8.5:  { type: "spec",                   col: 8,  row: 5, dir: 0,   texture: specImg,            basetexture: specImg            },
+    11.6: { type: "wall",                   col: 11, row: 6, dir: 0,   texture: wallImg,            basetexture: wallImg            },
+    6.0:  { type: "target", color: "white", col: 6,  row: 0, dir: 240, texture: targetImg[""],      basetexture: targetImg[""]      },
+    6.2:  { type: "filter", color: "blue",  col: 6,  row: 2, dir: 0,   texture: filterImg["blue"],  basetexture: filterImg["blue"]  },
+    4.5:  { type: "filter", color: "green", col: 4,  row: 5, dir: 0,   texture: filterImg["green"], basetexture: filterImg["green"] },
+},
+{
+    1.1:  { type: "laser",                  col: 1,  row: 1, dir: 60,  texture: laserImg,           basetexture: laserImg           },
+    6.4:  { type: "mirror",                 col: 6,  row: 4, dir: 180, texture: mirrorImg[""],      basetexture: mirrorImg[""]      },
+    8.3:  { type: "spec",                   col: 8,  row: 3, dir: 0,   texture: specImg,            basetexture: specImg            },
+    8.1:  { type: "spec",                   col: 8,  row: 1, dir: 0,   texture: specImg,            basetexture: specImg            },
+    11.6: { type: "wall",                   col: 11, row: 6, dir: 0,   texture: wallImg,            basetexture: wallImg            },
+    6.0:  { type: "target", color: "white", col: 6,  row: 0, dir: 240, texture: targetImg[""],      basetexture: targetImg[""]      },
+    6.2:  { type: "filter", color: "blue",  col: 6,  row: 2, dir: 0,   texture: filterImg["blue"],  basetexture: filterImg["blue"]  },
+    4.5:  { type: "filter", color: "green", col: 4,  row: 5, dir: 0,   texture: filterImg["green"], basetexture: filterImg["green"] },
+},
+];
 
-Objects[LAS.col + "." + LAS.row] = {type: "laser", dir: 60, texture: laserImg, col: LAS.col, row: LAS.row, basetexture: laserImg};
-Objects["6.4"] = {type: "mirror", dir: 180, texture: mirrorImg[""], col:6, row:4, basetexture: mirrorImg[""]};
-Objects["8.5"] = {type: "spec", dir: 0, texture: specImg, col:8, row:5, basetexture: specImg};
-Objects["11.6"] = {type: "wall", dir: 0, texture: wallImg, col:11, row:6, basetexture: wallImg};
-Objects["6.0"] = {type: "target", color: "white", dir: 240, texture: targetImg[""], col:6, row:0, basetexture: targetImg[""]};
-Objects["6.2"] = {type: "filter", color: "blue", dir: 0, texture: filterImg["blue"], col:6, row:2, basetexture: filterImg["blue"]};
-Objects["4.5"] = {type: "filter", color: "green", dir: 0, texture: filterImg["green"], col:4, row:5, basetexture: filterImg["green"]};
+var Base = { laser: 60, mirror: 180, target: 240 };
 
-Base["laser"] = 60;
-Base["mirror"] = 180;
-Base["target"] = 240;
 
 function GetDirection(angle, row, col) {
     var dx, dy;
@@ -46,7 +61,11 @@ function HexagonGrid(canvasId, radius) {
 
 
 
-HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDebug) {
+HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, level, isDebug) {
+
+    //assign selected level
+    lvl = level; 
+
     globalRows = rows; 
     globalCols = cols;
     this.canvasOriginX = originX;
@@ -73,31 +92,32 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDe
         offsetColumn = !offsetColumn;
     }
     this.clean();
-    this.drawHexAtColRow(LAS.col, LAS.row, 1, laserImg, Objects[LAS.col + "." +LAS.row].dir, "white");   
+    var kk = L[lvl].col + '.' + L[lvl].row;
+    this.drawHexAtColRow(L[lvl].col, L[lvl].row, 1, laserImg, O[lvl][L[lvl].col + '.' + L[lvl].row].dir, "white");   
     
 };
 
 HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture, dir, color) {
     dir %= 360;
     var coord = column + "." + row;
-    if (texture == lineImg[color] && (coord in Objects)) {   
-        if (Objects[coord].type == "mirror") {
-            var dif = Math.abs(Objects[coord].dir-dir);
+    if (texture == lineImg[color] && (coord in O[lvl])) {   
+        if (O[lvl][coord].type == "mirror") {
+            var dif = Math.abs(O[lvl][coord].dir-dir);
             if (dif == 180 ) {
-                Objects[coord].texture=mirrorImg[color+"Stop"];             
+                O[lvl][coord].texture=mirrorImg[color+"Stop"];             
                 this.RotateHex(column, row, coord, false);
                 return;
             }
             if (dif%120!=0 || dif == 0) {
-                Objects[coord].texture=mirrorImg[""];
+                O[lvl][coord].texture=mirrorImg[""];
                 this.RotateHex(column, row, coord, false);
                 return;
             }
             else {
-                Objects[coord].texture=mirrorImg[color];
+                O[lvl][coord].texture=mirrorImg[color];
                 this.RotateHex(column, row, coord, false);
                 var f = dir + 240;
-                if ((f%360) == Objects[coord].dir) 
+                if ((f%360) == O[lvl][coord].dir) 
                     dir = (f+60%360);
                 else
                     dir = (f-180)%360;
@@ -111,22 +131,22 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
             }
         }
 
-        if (Objects[coord].type == "wall")
+        if (O[lvl][coord].type == "wall")
             return;
 
-        if (Objects[coord].type == "target") {
-            if (color == Objects[coord].color || color == "white" || Objects[coord].color=="white") {
-                Objects[coord].texture = targetImg["white"];
-                while( (Objects[coord].dir + 180) % 360 != dir) 
+        if (O[lvl][coord].type == "target") {
+            if (color == O[lvl][coord].color || color == "white" || O[lvl][coord].color=="white") {
+                O[lvl][coord].texture = targetImg["white"];
+                while( (O[lvl][coord].dir + 180) % 360 != dir) 
                     this.RotateHex(column, row, coord, 1);
                 this.RotateHex(column, row, coord, 0);
             }
             return;
         }
 
-        if (Objects[coord].type == "filter") {
-            if (color == Objects[coord].color || color == "white") {
-                color = Objects[coord].color;
+        if (O[lvl][coord].type == "filter") {
+            if (color == O[lvl][coord].color || color == "white") {
+                color = O[lvl][coord].color;
                 texture = lineImg[color];
             }
             else return;
@@ -139,17 +159,16 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
 
 
 HexagonGrid.prototype.RotateHex = function(col, row, coord, rot) {
+    if (rot == true) 
+        O[lvl][coord].dir = (O[lvl][coord].dir + 60) % 360;
+    var x0 = (col * this.side) + this.canvasOriginX;
+    var y0 = col % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
+    this.context.save();
 
-   if (rot == true) Objects[coord].dir = (Objects[coord].dir+60)%360;
-    var x0 =  (col * this.side) + this.canvasOriginX;
-    var y0 =  col % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
-    this.context.save(); 
-
-        this.context.translate(x0+this.width/2, y0+this.height/2);
-        this.context.rotate((Objects[coord].dir-Base[Objects[coord].type])*Math.PI/180); 
-        this.context.translate(-(x0+this.width/2), -(y0+this.height/2));
-    
-        this.context.drawImage(Objects[coord].texture, x0, y0, (this.width), (this.height));
+    this.context.translate(x0+this.width/2, y0+this.height/2);
+    this.context.rotate((O[lvl][coord].dir-Base[O[lvl][coord].type])*Math.PI/180);
+    this.context.translate(-(x0+this.width/2), -(y0+this.height/2));
+    this.context.drawImage(O[lvl][coord].texture, x0, y0, (this.width), (this.height));
     this.context.restore();
 };
 
@@ -276,9 +295,9 @@ HexagonGrid.prototype.clean = function() {
             curline=globalLines.pop();
         }
 
-            for (var key in Objects) {
-                Objects[key].texture =  Objects[key].basetexture;
-                this.RotateHex(Objects[key].col,  Objects[key].row, key, false);
+            for (var key in O[lvl]) {
+                O[lvl][key].texture =  O[lvl][key].basetexture;
+                this.RotateHex(O[lvl][key].col,  O[lvl][key].row, key, false);
             }
 }
 
@@ -305,11 +324,11 @@ HexagonGrid.prototype.clickEvent = function (e) {
         var drawx = (tile.column * this.side) + this.canvasOriginX;
 
         var coord = tile.column + "." + tile.row;
-        if (coord in Objects) {
-            if (Objects[coord].type == "spec") {
-                Objects[coord].type = "mirror";
-                Objects[coord].basetexture = mirrorImg[""];
-                Objects[coord].dir = 180;
+        if (coord in O[lvl]) {
+            if (O[lvl][coord].type == "spec") {
+                O[lvl][coord].type = "mirror";
+                O[lvl][coord].basetexture = mirrorImg[""];
+                O[lvl][coord].dir = 180;
                 this.clean();
             }
             else {
@@ -317,12 +336,12 @@ HexagonGrid.prototype.clickEvent = function (e) {
                 this.RotateHex(tile.column, tile.row, coord, true);
             }
 
-            var DIR = GetDirection(Objects[LAS.col + "." +LAS.row].dir, LAS.row, LAS.col);
-             var target = { col: LAS.col+DIR.dx, 
-                       row: LAS.row+DIR.dy};
+            var DIR = GetDirection(O[lvl][L[lvl].col + "." +L[lvl].row].dir, L[lvl].row, L[lvl].col);
+             var target = { col: L[lvl].col+DIR.dx, 
+                       row: L[lvl].row+DIR.dy};
         
             if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
-                this.drawHexAtColRow(target.col, target.row, 0, lineImg["white"], Objects[LAS.col + "." +LAS.row].dir, "white");
+                this.drawHexAtColRow(target.col, target.row, 0, lineImg["white"], O[lvl][L[lvl].col + "." +L[lvl].row].dir, "white");
         }
 
     } 

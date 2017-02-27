@@ -16,7 +16,16 @@ function click(evt) {
             showMenu();
             break;
         case 'play':
-            showGrid();
+            chooseLevel();
+            break;
+        case 'lvl_1': 
+            showGrid(1);
+            break; 
+        case 'lvl_2':
+            showGrid(2);
+            break;
+        case 'lvl_3':
+            showGrid(3);
             break;
         case 'rating':
             showRating();
@@ -42,17 +51,23 @@ function showRating() {
     $('#rating').show();
 }
 
+function chooseLevel() {
+    $('.screen').hide().removeClass('show');
+    $('#level').show();
+}
 
-function showGrid() {
-
+function showGrid(lvl) {
     $('.screen').hide().removeClass('show');
     $('#loader').show();
     
-    setTimeout(function() {
-        $('.screen').hide().removeClass('show');
-        $('#grid').show();
-    }, 500);
-
+    var readyStateCheckInterval = setInterval(function() {
+        if (document.readyState === "complete") {
+            clearInterval(readyStateCheckInterval);
+            drawGrid(lvl);          
+            $('.screen').hide().removeClass('show');
+            $('#grid').show();
+        }
+    }, 10);
 }
 
 
