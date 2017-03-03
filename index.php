@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="js/events.js"></script>
 		<script type="text/javascript" src="js/resize.js"></script>
 		<script type="text/javascript" src="js/init.js"></script>
+		<script type="text/javascript" src="js/rating.js"></script>
 		<script type="text/javascript" src="js/grid.js" charset="utf-8"></script>
 	</head>
 	<body>
@@ -20,13 +21,14 @@
 		
 		<div id="container">
 			<div id="menu" class="menu screen">
+				<?php 
+					session_start();
+					if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
+						echo "<h3>Hello, " . $_SESSION['username'] . "!</h3>";
+					}
+				?>
+					
 				<div class="vertical">
-					<?php 
-						session_start();
-						if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
-							echo "<h3>Hello, " . $_SESSION['username'] . "!</h3>";
-						}
-					?>
 					<p data-action="play">Play</p>
 					<?php
 						session_start();
@@ -41,26 +43,14 @@
 				</div>
 			</div>
 
-			<div id="play" class="menu screen">
+			<div id="level" class="screen">
 				<div class="vertical">
-					<p data-action="arcade">Arcade</p>
-					<p data-action="showmenu">Back</p>
-				</div>
-			</div>
-			
-			<div id="login" class="screen">
-				<div class="vertical">
-					<div><?php include('/php/greeting.php'); ?></div>
-					<div>
-						<div id="login">
-							<form action="/php/login.php" method="post">
-								<input type="text"required name="username" placeholder="Username" autocomplete="off"/>
-								<input type="password"required name="password" placeholder="Password" autocomplete="off"/>
-									
-								<button type="submit" name="action" value="signup">Sign Up</button>
-								<button type="submit" name="action" value="login">Log In</button>
-							</form>
-						</div>
+					<h3 data-action="showmenu">Choose Level</h3>
+					<div class="text">
+						<p data-action="lvl_1"> > 1 < </p>
+						<p data-action="lvl_2"> > 2 < </p>
+						<p data-action="lvl_3"> > 3 < </p>
+						<h3 data-action="showmenu">Back</h3>
 					</div>
 				</div>
 			</div>
@@ -79,7 +69,7 @@
 					<?php
 						$con = mysqli_connect('localhost','tl','123123','colorray');
 						if (!$con) {
-							echo 'Could not connect: ' . mysqli_error($con);
+							echo '<p>Could not connect: ' . mysqli_error($con) . '</p>';
 						} else {
 							mysqli_select_db($con,"colorray");
 							$sql="SELECT username, rating FROM users ORDER BY rating DESC;";
@@ -97,9 +87,9 @@
 										$highlight = ' style="color:#f00"';
 									}
 								}
-								echo '<div id="name' . strval($i+1) . '" class="left"' . $highlight . '>';
-								echo $u . '</div><div id="score' . strval($i+1) . '" class="right"';
-								echo $highlight . '>' . $r . '</div>';
+								echo '<div id="name' . strval($i+1) . '" class="left"' . $highlight . '><p>';
+								echo $u . '</p></div><div id="score' . strval($i+1) . '" class="right"';
+								echo $highlight . '><p>' . $r . '</p></div>';
 							}
 						}
 						mysqli_close($con);
@@ -125,7 +115,11 @@
 
 		<div id="loader" class="screen"></div>
 
-		<div id="grid" class="screen">
-			<canvas id="HexCanvas" width="1000" height="700"></canvas>
-		</div>
+      <div id="grid" class="screen">
+         <div class="gridmenu">
+            <p data-action="showmenu">Concede</p>
+         </div>
+         <canvas id="HexCanvas"></canvas>
+      </div>
 	</body>
+</html>
