@@ -29,9 +29,12 @@
 							echo '<p>A user with this username already exists!</p>';
 							break;
 						case 3:
-							echo '<p>Incorrect password</p>';
+							echo '<p>A user with this username doesn\'t exist!</p>';
 							break;
 						case 4:
+							echo '<p>Incorrect password</p>';
+							break;
+						case 5:
 							echo '<p>Universe shifted and caused an error.</p>';
 							break;
 					}

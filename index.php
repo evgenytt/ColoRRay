@@ -11,9 +11,9 @@
 
 		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="js/events.js"></script>
+		<script type="text/javascript" src="js/stopwatch.js"></script>
 		<script type="text/javascript" src="js/resize.js"></script>
 		<script type="text/javascript" src="js/init.js"></script>
-		<script type="text/javascript" src="js/rating.js"></script>
 		<script type="text/javascript" src="js/grid.js" charset="utf-8"></script>
 	</head>
 	<body>
@@ -21,23 +21,10 @@
 		
 		<div id="container">
 			<div id="menu" class="menu screen">
-				<?php 
-					session_start();
-					if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
-						echo "<h3>Hello, " . $_SESSION['username'] . "!</h3>";
-					}
-				?>
-					
+				<?php include "php/greeting.php"; ?>
 				<div class="vertical">
 					<p data-action="play">Play</p>
-					<?php
-						session_start();
-						if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
-							echo '<p data-action="login">Sign Up / Log In</p>';
-						} else {
-							echo '<p data-action="logout">Log Out</p>';
-						}
-					?>
+					<?php include "php/login_logout_menu_item.php"; ?>
 					<p data-action="rating">Rating</p>
 					<p data-action="about">About</p>
 				</div>
@@ -45,7 +32,7 @@
 
 			<div id="level" class="screen">
 				<div class="vertical">
-					<h3 data-action="showmenu">Choose Level</h3>
+					<h3>Choose Level</h3>
 					<div class="text">
 						<p data-action="lvl_1"> > 1 < </p>
 						<p data-action="lvl_2"> > 2 < </p>
@@ -66,34 +53,7 @@
 			<div id="rating" class="screen" data-action="showmenu">
 				<h3>Rating</h3>
 				<div class="table">
-					<?php
-						$con = mysqli_connect('localhost','tl','123123','colorray');
-						if (!$con) {
-							echo '<p>Could not connect: ' . mysqli_error($con) . '</p>';
-						} else {
-							mysqli_select_db($con,"colorray");
-							$sql="SELECT username, rating FROM users ORDER BY rating DESC;";
-							$result = mysqli_query($con,$sql);
-							
-							for($i=0; $i < 5; $i++) {
-								$u = 'empty';
-								$r = 0;
-								$highlight = '';
-								if ($row = mysqli_fetch_assoc($result)) {
-									$u = $row['username'];
-									$r = strval($row['rating']);
-									session_start();
-									if (isset($_SESSION['username']) && !empty($_SESSION['username']) && $_SESSION['username'] == $row['username']) {
-										$highlight = ' style="color:#f00"';
-									}
-								}
-								echo '<div id="name' . strval($i+1) . '" class="left"' . $highlight . '><p>';
-								echo $u . '</p></div><div id="score' . strval($i+1) . '" class="right"';
-								echo $highlight . '><p>' . $r . '</p></div>';
-							}
-						}
-						mysqli_close($con);
-					?>
+					<?php include "php/list_rating.php"; ?>
 				</div>
 			</div>
 			
@@ -117,7 +77,8 @@
 
       <div id="grid" class="screen">
          <div class="gridmenu">
-            <p data-action="showmenu">Concede</p>
+            <div id="stopwatch">Time: </div>
+            <div id="grid_button" data-action="play">Concede</div>
          </div>
          <canvas id="HexCanvas"></canvas>
       </div>

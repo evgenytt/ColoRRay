@@ -43,7 +43,7 @@ body {
   display: block;
 }
 
-#level p:hover, .gridmenu p:hover {
+#level p:hover, #grid_button:hover {
   color: black;
 }
 
@@ -66,6 +66,12 @@ p {
   padding: 30px 0px; 
   line-height: 48px; 
   margin: 0;
+}
+
+#greeting p {
+  font-size: 20px; 
+  padding: 0px 0px; 
+  line-height: 20px; 
 }
 
 form a:link,

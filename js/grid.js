@@ -45,18 +45,20 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, leve
                 currentHexX = col * this.side + originX;
                 currentHexY = (row * this.height) + originY + (this.height * 0.5);
             }
-                this.drawHex(currentHexX, currentHexY, 0, 0, 0);
+                this.drawHex(currentHexX, currentHexY, 0, 0);
 
         }
         offsetColumn = !offsetColumn;
     }
     this.clean();
-    this.drawHexAtColRow(L[lvl].col, L[lvl].row, 1, laserImg, O[lvl][L[lvl].col + '.' + L[lvl].row].dir, "white");   
+    this.drawHexAtColRow(L[lvl].col, L[lvl].row, laserImg, O[lvl][L[lvl].col + '.' + L[lvl].row].dir, "white");   
     
 };
 
-HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture, dir, color) {
+HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, color) {
     dir %= 360;
+    var drawx = (column * this.side) + this.canvasOriginX;
+    var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
     var coord = column + "." + row;
     if (texture == lineImg[color] && (coord in O[lvl])) {   
         if (O[lvl][coord].type == "mirror") {
@@ -84,7 +86,7 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
                 var target = { col: column+DIR.dx, 
                                row: row+DIR.dy};
                 if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
-                    this.drawHexAtColRow(target.col, target.row, 0, lineImg[color], dir, color);
+                    this.drawHexAtColRow(target.col, target.row, lineImg[color], dir, color);
                 return;
             }
         }
@@ -93,11 +95,20 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
             return;
 
         if (O[lvl][coord].type == "target") {
-            if (color == O[lvl][coord].color || color == "white" || O[lvl][coord].color=="white") {
-                O[lvl][coord].texture = targetImg["white"];
+            if (color == O[lvl][coord].color) {
+                O[lvl][coord].texture = targetImg[color];
                 while( (O[lvl][coord].dir + 180) % 360 != dir) 
                     this.RotateHex(column, row, coord, 1);
                 this.RotateHex(column, row, coord, 0);
+            }
+            else
+            {
+                this.context.save(); 
+                this.context.translate(drawx+this.width/2, drawy+this.height/2);
+                this.context.rotate((dir-60)*Math.PI/180); 
+                this.context.translate(-(drawx+this.width/2), -(drawy+this.height/2));
+                this.context.drawImage(lineImg["little"+color],drawx, drawy, (this.width), (this.height));
+                this.context.restore();
             }
             return;
         }
@@ -110,9 +121,7 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, rotateHex, texture
             else return;
         }
     }
-    var drawx = (column * this.side) + this.canvasOriginX;
-    var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
-    this.drawHex(drawx, drawy, rotateHex, texture, {col: column, row: row}, dir, color);
+    this.drawHex(drawx, drawy, texture, {col: column, row: row}, dir, color);
 };
 
 HexagonGrid.prototype.RotateHex = function(col, row, coord, rot) {
@@ -141,7 +150,7 @@ function GetDirection(angle, row, col) {
     }
 };
 
-HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow, dir, color) {
+HexagonGrid.prototype.drawHex = function(x0, y0, texture, colrow, dir, color) {
 
     if (texture) {  
         if (texture == lineImg[color]) globalLines.push({ x: x0, y: y0 });
@@ -158,7 +167,7 @@ HexagonGrid.prototype.drawHex = function(x0, y0, rotateHex, texture, colrow, dir
                        row: colrow.row+DIR.dy };
         
         if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
-            this.drawHexAtColRow(target.col, target.row, 0, lineImg[color], dir,color);
+            this.drawHexAtColRow(target.col, target.row, lineImg[color], dir,color);
     }
     else {
         this.context.drawImage(hexImg, x0, y0, (this.width), (this.height));
@@ -257,7 +266,7 @@ HexagonGrid.prototype.clean = function() {
 
         var curline=globalLines.pop();
         while (curline != undefined) {
-            this.drawHex(curline.x, curline.y,0,0,0);
+            this.drawHex(curline.x, curline.y,0,0);
             curline=globalLines.pop();
         }
 
@@ -303,7 +312,7 @@ HexagonGrid.prototype.clickEvent = function (e) {
             var target = { col: L[lvl].col+DIR.dx, row: L[lvl].row+DIR.dy };
         
             if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
-                this.drawHexAtColRow(target.col, target.row, 0, lineImg["white"], O[lvl][L[lvl].col + "." + L[lvl].row].dir, "white");
+                this.drawHexAtColRow(target.col, target.row,  lineImg["white"], O[lvl][L[lvl].col + "." + L[lvl].row].dir, "white");
         }
 
     } 

@@ -30,7 +30,7 @@
 	$result = mysqli_query($con,$sql);
 	$row = mysqli_fetch_assoc($result);
 	
-	$rating = 0;
+	$rating = intval($row['rating']);
 	
 // 	$time = time() - strtotime(row['last_login']);
 	for($i = 0; $i < $l; $i++) {

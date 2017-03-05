@@ -35,12 +35,13 @@ if (isset($_POST['action']) && isset($_POST['username']) && isset($_POST['passwo
 		exit;
 		
 	} elseif ($action=='Log In') {
+		header('Location: ../signup.php?error=3');
 		if ($rows < 1) {
 			exit();
 		} else {
 			$row = mysqli_fetch_assoc($result);
 			if ($row['password'] != $_POST['password']) {
-				header('Location: ../signup.php?error=3');
+				header('Location: ../signup.php?error=4');
 				exit();
 			} else {
 				session_start();
@@ -50,11 +51,11 @@ if (isset($_POST['action']) && isset($_POST['username']) && isset($_POST['passwo
 			}
 		}
 	} else {
-		header('Location: ../signup.php?error=4');
+		header('Location: ../signup.php?error=5');
 		exit();
 	}
 	mysqli_close($con);
 } else {
-	header('Location: ../signup.php?error=4');
+	header('Location: ../signup.php?error=5');
 } 
 ?>
