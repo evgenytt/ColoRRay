@@ -38,7 +38,7 @@ body {
   display: block;
 }
 
-#level p:hover, .gridmenu p:hover {
+#level p:hover, #grid_button:hover {
   color: black;
 }
 
@@ -80,16 +80,15 @@ p {
 }
 
 .gridmenu {
-   position: absolute;
-   left: 1%;
-   bottom: 0;
+  width: 100%;
+  position: absolute;
+  right: -60%;
+  top: 5%;
 }
 
 #loader {
-
   margin: auto;
   top: 0; left: 0; bottom: 0; right: 0;
-
   border: 10px solid #f3f3f3;
   border-radius: 50%;
   border-top: 10px solid #3498db;

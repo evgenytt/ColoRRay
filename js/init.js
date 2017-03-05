@@ -26,6 +26,10 @@ function drawGrid(lvl) {
 
     initLevelVariables();
     hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.035, lvl, false);
+
+    // start stopwatch
+    var stopwatch = new Stopwatch(document.getElementById("stopwatch"), {delay: 10});
+    stopwatch.start();
 };
 
 function initLevelVariables() { // LEVELS FOR THE GAME !!!

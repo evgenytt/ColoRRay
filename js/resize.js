@@ -14,6 +14,7 @@ function resize() {
     $('p').css('padding', Math.round(containerWidth * .05) + 'px 0');
     $('p').css('line-height', Math.round(containerWidth * .1) + 'px');
     $('.menu p').css('font-size', Math.round(containerWidth * .1) + 'px');
+    $('.gridmenu').css('font-size', Math.round(containerWidth * .045) + 'px');
     $('#level p').css('line-height', Math.round(containerWidth * .01) + 'px');
     $('.table p').css('font-size', Math.round(containerWidth * .05) + 'px');
     $('.table p').css('line-height', Math.round(containerWidth * .01) + 'px');
