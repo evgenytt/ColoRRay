@@ -22,7 +22,6 @@ function click(evt) {
             showGrid(1);
             break; 
         case 'lvl_2':
-
             showGrid(2);
             break;
         case 'lvl_3':
@@ -69,6 +68,11 @@ function showGrid(lvl) {
             $('#grid').show();
         }
     }, 10);
+}
+
+function showComplete() {
+    document.getElementById('complete').innerHTML = "Level Complete in " + stopwatch.getms() + "seconds."; 
+    $('#complete').show();
 }
 
 

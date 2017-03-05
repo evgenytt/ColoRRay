@@ -18,6 +18,7 @@ function resize() {
     $('#level p').css('line-height', Math.round(containerWidth * .01) + 'px');
     $('.table p').css('font-size', Math.round(containerWidth * .05) + 'px');
     $('.table p').css('line-height', Math.round(containerWidth * .01) + 'px');
+    $('#complete').css('font-size', Math.round(containerWidth * .13) + 'px');
 }
 
 function resize_canvas() {

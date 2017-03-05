@@ -105,15 +105,23 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, colo
                 while( (O[lvl][coord].dir + 180) % 360 != dir) 
                     this.RotateHex(column, row, coord, 1);
                 this.RotateHex(column, row, coord, 0);
-                this.context.font = "italic 70px Arial";
-                this.context.fillStyle = "rgb(255,255,255)";
-                this.context.fillText("Level Complete!", globalCols*this.side/2 - 150, globalRows*this.height/2);
+
+                document.getElementById('complete').innerHTML = "Level Complete in " + stopwatch.getms()/100 + " seconds."; 
+                $('#complete').show();
+                
                 stopwatch.stop();
                 this.block = true;
                 if (lvl == 3)
-                setTimeout(chooseLevel,2000);
+                    setTimeout(function() {
+                        chooseLevel();
+                        $('#complete').hide();
+                    }, 2000);
                 else
-                setTimeout(function() {showGrid(lvl + 1);},2000); //Иначе срабатывает сразу (магия)
+                    setTimeout(function() { 
+                        showGrid(lvl + 1); 
+                        $('#complete').hide();
+                    }, 2000); //Иначе срабатывает сразу (магия)
+                
             }
             else
             {
