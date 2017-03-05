@@ -1,4 +1,5 @@
 var hexagonGrid;
+var stopwatch;
 
 $(document).ready(function() {
     init();
@@ -23,15 +24,20 @@ function init() {
 function drawGrid(lvl) {
     var win_h = $(document).height();
     var rows = 9, cols = 13;
-    if (hexagonGrid==undefined)
-    hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
+    if (!hexagonGrid)
+        hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
 
     initLevelVariables();
     hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.035, lvl, false);
 
     // start stopwatch
-    var stopwatch = new Stopwatch(document.getElementById("stopwatch"), {delay: 10});
-    stopwatch.start();
+    if (!stopwatch) { 
+        stopwatch = new Stopwatch(document.getElementById("stopwatch"), {delay: 10});
+        stopwatch.start();
+    } else {
+        stopwatch.reset();
+        stopwatch.start();
+    }
 };
 
 function initLevelVariables() { // LEVELS FOR THE GAME !!!
