@@ -11,6 +11,7 @@
 
       <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
       <script type="text/javascript" src="js/init.js"></script>
+      <script type="text/javascript" src="js/stopwatch.js"></script>
       <script type="text/javascript" src="js/events.js"></script>
       <script type="text/javascript" src="js/resize.js"></script>
       <script type="text/javascript" src="js/rating.js"></script>
@@ -30,7 +31,7 @@
 
          <div id="level" class="screen">
             <div class="vertical">
-               <h3 data-action="showmenu">Choose Level</h3>
+               <h3 >Choose Level</h3>
                <div class="text">
                   <p data-action="lvl_1"> > 1 < </p>
                   <p data-action="lvl_2"> > 2 < </p>
@@ -65,15 +66,17 @@
                </div>
             </div>
          </div>
-
       </div>
-
-      <div id="loader" class="screen"></div>
 
       <div id="grid" class="screen">
          <div class="gridmenu">
-            <p data-action="showmenu">Concede</p>
+            <div id="stopwatch">Time: </div>
+            <div id="grid_button" data-action="play">Concede</div>
          </div>
+
+         <div id="loader" class="screen"></div>
+         <div id="complete" class="screen"></div>
+         
          <canvas id="HexCanvas"></canvas>
       </div>
    </body>

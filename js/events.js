@@ -70,5 +70,10 @@ function showGrid(lvl) {
     }, 10);
 }
 
+function showComplete() {
+    document.getElementById('complete').innerHTML = "Level Complete in " + stopwatch.getms() + "seconds."; 
+    $('#complete').show();
+}
+
 
 
