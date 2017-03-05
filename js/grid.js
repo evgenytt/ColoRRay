@@ -6,6 +6,31 @@ var L = [];
 var O = [];
 var Base;
 
+// POST for sending data to php
+function post(path, params, method) {
+	method = method || "post"; // Set method to post by default if not specified.
+	
+	// The rest of this code assumes you are not using a library.
+	// It can be made less wordy if you use one.
+	var form = document.createElement("form");
+	form.setAttribute("method", method);
+	form.setAttribute("action", path);
+	
+	for(var key in params) {
+		if(params.hasOwnProperty(key)) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			hiddenField.setAttribute("value", params[key]);
+			
+			form.appendChild(hiddenField);
+		}
+	}
+	
+	document.body.appendChild(form);
+	form.submit();
+}
+
 function HexagonGrid(canvasId, radius) {
     this.radius  = radius;
     this.height  = Math.sqrt(3) * radius;
@@ -24,7 +49,7 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, leve
 
     // assign selected level
     lvl = level; 
-
+    this.block = false;
     globalRows = rows; 
     globalCols = cols;
     this.canvasOriginX = originX;
@@ -51,11 +76,16 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, leve
         offsetColumn = !offsetColumn;
     }
     this.clean();
-    this.drawHexAtColRow(L[lvl].col, L[lvl].row, laserImg, O[lvl][L[lvl].col + '.' + L[lvl].row].dir, "white");   
+     var DIR = GetDirection(O[lvl][L[lvl].col + "." +L[lvl].row].dir, L[lvl].row, L[lvl].col);
+     var target = { col: L[lvl].col+DIR.dx, row: L[lvl].row+DIR.dy };
+    if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
+        this.drawHexAtColRow(target.col, target.row,  lineImg["white"], O[lvl][L[lvl].col + "." + L[lvl].row].dir, "white");   
     
 };
 
 HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, color) {
+    if (this.block)
+        return;
     dir %= 360;
     var drawx = (column * this.side) + this.canvasOriginX;
     var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
@@ -99,7 +129,18 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, colo
                 O[lvl][coord].texture = targetImg[color];
                 while( (O[lvl][coord].dir + 180) % 360 != dir) 
                     this.RotateHex(column, row, coord, 1);
-                this.RotateHex(column, row, coord, 0);
+				this.RotateHex(column, row, coord, 0);
+				
+                this.context.font = "italic 70px Arial";
+                this.context.fillStyle = "rgb(255,255,255)";
+				this.context.fillText("Level Complete!", globalCols*this.side/2 - 150, globalRows*this.height/2);		
+				stopwatch.stop();
+				this.block = true;
+				if (lvl == 3)
+                setTimeout(chooseLevel,2000);
+                else
+                setTimeout(function() {showGrid(lvl + 1);},2000); //Иначе срабатывает сразу (магия)
+                post('../php/recalc_rating.php', {timems: stopwatch.getms(), level: lvl} );
             }
             else
             {
@@ -125,6 +166,8 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, colo
 };
 
 HexagonGrid.prototype.RotateHex = function(col, row, coord, rot) {
+    if (this.block)
+        return;
     if (rot == true) 
         O[lvl][coord].dir = (O[lvl][coord].dir + 60) % 360;
     var x0 = (col * this.side) + this.canvasOriginX;
@@ -263,7 +306,8 @@ HexagonGrid.prototype.sign = function(p1, p2, p3) {
 };
 
 HexagonGrid.prototype.clean = function() {
-
+    if (this.block)
+        return;
         var curline=globalLines.pop();
         while (curline != undefined) {
             this.drawHex(curline.x, curline.y,0,0);

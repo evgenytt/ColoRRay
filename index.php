@@ -6,6 +6,7 @@
 
 		<link rel="icon" type="image/png" href="img/icon.png" />
 		<link href="css/main.css" rel="stylesheet" type="text/css">
+		<link href="css/login.css" rel="stylesheet" type="text/css">
 		<link href="css/fonts.css" type="text/css" rel="stylesheet" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
 

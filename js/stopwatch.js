@@ -43,6 +43,10 @@ var Stopwatch = function(elem, options) {
     clock += delta();
     render();
   }
+  
+  function getms() {
+    return clock;
+  };
 
   function render() {
     timer.innerHTML = clock/1000; 
@@ -60,4 +64,5 @@ var Stopwatch = function(elem, options) {
   this.start  = start;
   this.stop   = stop;
   this.reset  = reset;
+  this.getms  = getms;
 };
