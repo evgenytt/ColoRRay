@@ -24,7 +24,7 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, leve
 
     // assign selected level
     lvl = level; 
-
+    this.block = false;
     globalRows = rows; 
     globalCols = cols;
     this.canvasOriginX = originX;
@@ -59,6 +59,8 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, leve
 };
 
 HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, color) {
+    if (this.block)
+        return;
     dir %= 360;
     var drawx = (column * this.side) + this.canvasOriginX;
     var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
@@ -103,6 +105,15 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, colo
                 while( (O[lvl][coord].dir + 180) % 360 != dir) 
                     this.RotateHex(column, row, coord, 1);
                 this.RotateHex(column, row, coord, 0);
+                this.context.font = "italic 70px Arial";
+                this.context.fillStyle = "rgb(255,255,255)";
+                this.context.fillText("Level Complete!", globalCols*this.side/2 - 150, globalRows*this.height/2);
+                stopwatch.stop();
+                this.block = true;
+                if (lvl == 3)
+                setTimeout(chooseLevel,2000);
+                else
+                setTimeout(function() {showGrid(lvl + 1);},2000); //Иначе срабатывает сразу (магия)
             }
             else
             {
@@ -128,6 +139,8 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, colo
 };
 
 HexagonGrid.prototype.RotateHex = function(col, row, coord, rot) {
+    if (this.block)
+        return;
     if (rot == true) 
         O[lvl][coord].dir = (O[lvl][coord].dir + 60) % 360;
     var x0 = (col * this.side) + this.canvasOriginX;
@@ -266,7 +279,8 @@ HexagonGrid.prototype.sign = function(p1, p2, p3) {
 };
 
 HexagonGrid.prototype.clean = function() {
-
+    if (this.block)
+        return;
         var curline=globalLines.pop();
         while (curline != undefined) {
             this.drawHex(curline.x, curline.y,0,0);
