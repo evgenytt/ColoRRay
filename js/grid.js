@@ -51,10 +51,10 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, leve
         offsetColumn = !offsetColumn;
     }
     this.clean();
-     var DIR = GetDirection(O[lvl][L[lvl].col + "." +L[lvl].row].dir, L[lvl].row, L[lvl].col);
+     var DIR = GetDirection(O[lvl][L[lvl].col + '.' +L[lvl].row].dir, L[lvl].row, L[lvl].col);
      var target = { col: L[lvl].col+DIR.dx, row: L[lvl].row+DIR.dy };
     if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
-        this.drawHexAtColRow(target.col, target.row,  lineImg["white"], O[lvl][L[lvl].col + "." + L[lvl].row].dir, "white");   
+        this.drawHexAtColRow(target.col, target.row,  lineImg["white"], O[lvl][L[lvl].col + '.' + L[lvl].row].dir, "white"); 
     
 };
 
@@ -64,7 +64,7 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, colo
     dir %= 360;
     var drawx = (column * this.side) + this.canvasOriginX;
     var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
-    var coord = column + "." + row;
+    var coord = column + '.' + row;
     if (texture == lineImg[color] && (coord in O[lvl])) {   
         if (O[lvl][coord].type == "mirror") {
             var dif = Math.abs(O[lvl][coord].dir-dir);
@@ -312,7 +312,7 @@ HexagonGrid.prototype.clickEvent = function (e) {
 
     var tile = this.getSelectedTile(localX, localY);
     if (tile.column >= 0 && tile.row >= 0 && tile.column < globalCols && tile.row < globalRows) {
-        var coord = tile.column + "." + tile.row;
+        var coord = tile.column + '.' + tile.row;
         if (coord in O[lvl]) {
             if (O[lvl][coord].type == "spec") {
                 O[lvl][coord].type = "mirror";
@@ -325,11 +325,11 @@ HexagonGrid.prototype.clickEvent = function (e) {
                 this.RotateHex(tile.column, tile.row, coord, true);
             }
 
-            var DIR = GetDirection(O[lvl][L[lvl].col + "." +L[lvl].row].dir, L[lvl].row, L[lvl].col);
+            var DIR = GetDirection(O[lvl][L[lvl].col + '.' +L[lvl].row].dir, L[lvl].row, L[lvl].col);
             var target = { col: L[lvl].col+DIR.dx, row: L[lvl].row+DIR.dy };
         
             if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
-                this.drawHexAtColRow(target.col, target.row,  lineImg["white"], O[lvl][L[lvl].col + "." + L[lvl].row].dir, "white");
+                this.drawHexAtColRow(target.col, target.row,  lineImg["white"], O[lvl][L[lvl].col + '.' + L[lvl].row].dir, "white");
         }
 
     } 
