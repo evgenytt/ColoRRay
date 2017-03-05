@@ -22,6 +22,7 @@ function click(evt) {
             showGrid(1);
             break; 
         case 'lvl_2':
+
             showGrid(2);
             break;
         case 'lvl_3':

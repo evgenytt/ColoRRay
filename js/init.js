@@ -1,3 +1,4 @@
+var hexagonGrid;
 
 $(document).ready(function() {
     init();
@@ -22,7 +23,8 @@ function init() {
 function drawGrid(lvl) {
     var win_h = $(document).height();
     var rows = 9, cols = 13;
-    var hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
+    if (hexagonGrid==undefined)
+    hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
 
     initLevelVariables();
     hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.035, lvl, false);
