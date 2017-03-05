@@ -51,7 +51,10 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, leve
         offsetColumn = !offsetColumn;
     }
     this.clean();
-    this.drawHexAtColRow(L[lvl].col, L[lvl].row, laserImg, O[lvl][L[lvl].col + '.' + L[lvl].row].dir, "white");   
+     var DIR = GetDirection(O[lvl][L[lvl].col + "." +L[lvl].row].dir, L[lvl].row, L[lvl].col);
+     var target = { col: L[lvl].col+DIR.dx, row: L[lvl].row+DIR.dy };
+    if (target.col < globalCols && target.row < globalRows  && target.col >= 0 && target.row >= 0) 
+        this.drawHexAtColRow(target.col, target.row,  lineImg["white"], O[lvl][L[lvl].col + "." + L[lvl].row].dir, "white");   
     
 };
 

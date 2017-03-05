@@ -48,7 +48,7 @@ function initLevelVariables() { // LEVELS FOR THE GAME !!!
         {   // LASER 2
             col: 1, row: 1 },
         {   // LASER 3
-        
+            col: 0, row: 1
         }
     ]; 
 
@@ -75,7 +75,25 @@ function initLevelVariables() { // LEVELS FOR THE GAME !!!
             4.5:  { type: "filter", color: "green", col: 4,  row: 5, dir: 0,   texture: filterImg["green"], basetexture: filterImg["green"] },
         }, 
         {  // LEVEL 3
-
+            0.1: { type: "laser", col: 0, row: 1, dir: 60, texture: laserImg, basetexture: laserImg }, 
+            0.5: { type: "wall", col: 0, row: 5, dir: 0, texture: wallImg, basetexture: wallImg }, 
+            3.2: { type: "spec", col: 3, row: 2, dir: 0, texture: specImg, basetexture: specImg }, 
+            3.7: { type: "filter", color: "blue", col: 3, row: 7, dir: 0, texture: filterImg["blue"], basetexture: filterImg["blue"] }, 
+            6.1: { type: "spec", col: 6, row: 1, dir: 0, texture: specImg, basetexture: specImg }, 
+            6.4: { type: "wall", col: 6, row: 4, dir: 0, texture: wallImg, basetexture: wallImg }, 
+            6.6: { type: "spec", col: 6, row: 6, dir: 0, texture: specImg, basetexture: specImg }, 
+            6.7: { type: "spec", col: 6, row: 7, dir: 0, texture: specImg, basetexture: specImg }, 
+            7.1: { type: "spec", col: 7, row: 1, dir: 0, texture: specImg, basetexture: specImg }, 
+            7.4: { type: "filter", color: "red", col: 7, row: 4, dir: 0, texture: filterImg["red"], basetexture: filterImg["red"]}, 
+            7.5: { type: "spec", col: 7, row: 5, dir: 0, texture: specImg, basetexture: specImg }, 
+            7.6: { type: "wall", col: 7, row: 6, dir: 0, texture: wallImg, basetexture: wallImg }, 
+            7.7: { type: "spec", col: 7, row: 7, dir: 0, texture: specImg, basetexture: specImg }, 
+            7.8: { type: "target", color: "red", col: 7, row: 8, dir: 240, texture: targetImg["redbase"], basetexture: targetImg["redbase"] }, 
+            8.6: { type: "spec", col: 8, row: 6, dir: 0, texture: specImg, basetexture: specImg }, 
+            8.7: { type: "spec", col: 8, row: 7, dir: 0, texture: specImg, basetexture: specImg }, 
+            10.2: { type: "wall", col: 10, row: 2, dir: 0, texture: wallImg, basetexture: wallImg }, 
+            10.5: { type: "filter", color: "green", col: 10, row: 5, dir: 0, texture: filterImg["green"], basetexture: filterImg["green"] }, 
+            12.3: { type: "spec", col: 12, row: 3, dir: 0, texture: specImg, basetexture: specImg },
         }
     ];
 
