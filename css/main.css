@@ -80,9 +80,8 @@ p {
 }
 
 .gridmenu {
-  width: 100%;
   position: absolute;
-  right: -80%;
+  left: 86%;
   top: 5%;
 }
 

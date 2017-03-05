@@ -23,12 +23,16 @@ function init() {
 
 function drawGrid(lvl) {
     var win_h = $(document).height();
+    var win_w = $(document).width();
     var rows = 9, cols = 13;
+    var radius = win_h/(rows*2) < win_w/(cols*2) ? win_h/(rows*2) : win_w/(cols*2);
+    var gridWidth = (7/4 * radius) * cols;
+    console.log(gridWidth);
     if (!hexagonGrid)
-        hexagonGrid = new HexagonGrid("HexCanvas", win_h/(rows*2));
+        hexagonGrid = new HexagonGrid("HexCanvas", radius);
 
     initLevelVariables();
-    hexagonGrid.drawHexGrid(rows, cols, win_h*0.038, win_h*0.035, lvl, false);
+    hexagonGrid.drawHexGrid(rows, cols, win_w/2 - gridWidth/2, win_h*0.035, lvl, false);
 
     // start stopwatch
     if (!stopwatch) { 
