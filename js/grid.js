@@ -106,7 +106,7 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, texture, dir, colo
                     this.RotateHex(column, row, coord, 1);
                 this.RotateHex(column, row, coord, 0);
 
-                document.getElementById('complete').innerHTML = "Level Complete in " + stopwatch.getms()/100 + " seconds."; 
+                document.getElementById('complete').innerHTML = "Level Completed in " + stopwatch.getms()/1000 + " seconds."; 
                 $('#complete').show();
                 
                 stopwatch.stop();
